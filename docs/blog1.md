@@ -1,2 +1,1 @@
-## 
-<span style="font-size:2.5em; font-align:center;">Why Meditate?</span> 
+<p style="text-align: center;font-size:2.5em;">Why Meditate?</p>

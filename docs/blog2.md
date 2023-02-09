@@ -1,1 +1,1 @@
-<span style="font-size:1.5em; font-align:center;">Impermeanance and Nonself in Conceptual Thought</span> 
+<p style="text-align: center;font-size:1.5em;">Impermeanance and Nonself in Conceptual Thought</p>
