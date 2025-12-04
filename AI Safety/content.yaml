@@ -1,0 +1,59 @@
+name: "Technical AI Safety"
+description: "Recently I have been learning about technical AI safety, and wanted a place to arrange the literature. Hopefully it can also be 
+useful to someone else...This contains an overview of the different Technical AI Safety areas, along with key papers for each.\n\nNaturally 
+many of these areas will blend into each other."
+children:
+  - name: "Mechanistic Interpretability"
+    description: "This field is about delving into the weights of the neural network in order to understand model internals 
+    and how representations map to computation."
+    papers:
+      - title: "A Mathematical Framework for Transformer Circuits"
+        authors: "Elhage et al."
+        summary: "Provides a formal framework for analyzing transformer circuits."
+        url: "https://arxiv.org/abs/2302.06159"
+    children:
+      - name: "Sparse Autoencoders (SAEs)"
+        # Use the pipe character (|) to start a literal block.
+        # This tells the parser to preserve all newlines and blank lines exactly.
+        description: "
+          Motivation: Neurons in LLMs often represent superpositions of features, meaning we can't properly intepret what the network is doing. SAEs can help disentangle these. \n\nHere we train an autoencoder to represent some section of the network, where the autoencoder has a very large latent space (bigger than the size of the original layer). By then applying sparsity in the latent space, we can force the autoencoder to learn a basis of features that are more interpretable."
+        papers:
+          - title: "Towards Monosemanticity: Decomposing Language Models With Dictionary Learning"
+            authors: "Cunningham et al."
+            summary: "Uses sparse autoencoders to decompose activations into interpretable features."
+            url: "https://transformer-circuits.pub/2023/monosemantic-features/index.html"
+      - name: "Circuits & Features"
+        description: "Circuit-level analyses and feature discovery."
+        children:
+          - name: "Induction Heads"
+            description: "Mechanisms for in-context learning in transformers."
+            papers:
+              - title: "In-context Learning and Induction Heads"
+                authors: "Olsson et al."
+                summary: "Shows induction heads as a mechanism for in-context learning."
+                url: "https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html"
+        
+  - name: "Alignment"
+    description: "Methods for aligning models with human values and intent."
+    children:
+      - name: "RLHF"
+        description: "Reinforcement learning from human feedback and its variants."
+        papers:
+          - title: "Training Language Models to Follow Instructions with Human Feedback"
+            authors: "Ouyang et al."
+            summary: "Introduces InstructGPT and RLHF pipeline."
+            url: "https://arxiv.org/abs/2203.02155"
+      - name: "Value Learning"
+        description: "Approaches to infer human values and preferences."
+  - name: "Evaluations"
+    description: "Benchmarks and metrics to measure capability and alignment."
+    children:
+      - name: "Capability Evals"
+        description: "Tests for model knowledge and reasoning."
+        papers:
+          - title: "Measuring Massive Multitask Language Understanding"
+            authors: "Hendrycks et al."
+            summary: "Introduces the MMLU benchmark."
+            url: "https://arxiv.org/abs/2009.03300"
+
+  - name: "Control"

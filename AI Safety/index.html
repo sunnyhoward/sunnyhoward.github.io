@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dynamic AI Safety Mindmap</title>
+  <style>
+    :root{
+      --bg1: #9b9c9f;
+      --bg2: #4e0795;
+      --panel-bg: #f6f6f6;
+      --accent: #e60a0a;
+      --muted: #000000;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    body{
+      background: linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);
+      overflow:hidden;
+    }
+
+    /* stage + viewport */
+    #stage{position:relative;width:100vw;height:100vh;overflow:hidden}
+    #viewport{position:absolute;left:0;top:0;transform-origin:0 0;transition:transform 600ms cubic-bezier(.22,.9,.32,1)}
+    #canvas{position:relative; width:3000px; height:2000px;}
+
+    /* svg connections sit below nodes */
+    svg#connections{position:absolute;left:0;top:0;width:3000px;height:2000px;pointer-events:none;z-index:1}
+
+    /* nodes */
+    .node{
+      position:absolute;
+      transform:translate(-50%,-50%);
+      padding:12px 18px;
+      border-radius:12px;
+      background:var(--panel-bg);
+      box-shadow:0 10px 30px rgba(0, 0, 0, 0.18);
+      cursor:pointer;
+      user-select:none;
+      z-index:10;
+      font-weight:600;
+      color:#2d3748;
+      transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+      white-space:nowrap;
+    }
+    .node:hover{transform:translate(-50%,-50%) scale(1.05); box-shadow:0 18px 40px rgba(0,0,0,0.25)}
+    .node.center{background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%); color:white; font-size:18px; padding:16px 22px}
+    .node.category{background:linear-gradient(135deg,#4299e1 0%,#667eea 100%); color:white;}
+    .node.prev-level{background:#000000; color:#ffffff;}
+    .node.active{background:#48bb78; color:white;}
+
+    /* right panel (node description) */
+    .info-panel{
+      position:fixed;
+      right:20px;
+      top:20px;
+      width:360px;
+      height:calc(100vh - 40px);
+      background:var(--panel-bg);
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(212, 255, 0, 0.849);
+      padding:18px;
+      overflow:auto;
+      z-index:400;
+    }
+    .info-panel h2{margin:0 0 6px 0;font-size:18px}
+    .info-panel p{color:var(--muted);margin:6px 0 12px 0;line-height:1.45}
+    .info-section{margin-bottom:12px}
+    .paper-item{padding:10px;background:#f7fafc;border-radius:8px;margin-bottom:8px;border-left:4px solid var(--accent)}
+    .button-row{display:flex;gap:8px;margin-top:8px}
+    .btn{padding:8px 10px;border-radius:8px;border:none;cursor:pointer;background:var(--accent);color:#fff;font-weight:600}
+    .btn.secondary{background:#e2e8f0;color:#1f2937}
+    .breadcrumb{position:fixed;left:20px;top:20px;background:rgba(255,255,255,0.95);padding:10px 14px;border-radius:8px;font-size:14px;color:#4a5568;z-index:450;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    /* hide on small screens to avoid overlap */
+    @media (max-width:920px){ .info-panel{width:320px;right:12px} .breadcrumb{left:8px;top:8px} }
+
+    .node.selected-final {
+    border: 3px solid #a2ad02; /* Bright red border */
+    background-color: #e6ff09; /* Darker background */
+    box-shadow: 0 0 10px #403e22, 0 0 5px #FF5252 inset;
+    transition: all 0.2s ease-out;
+}
+.description {
+  white-space: pre-wrap; /* preserves newlines and wraps text */
+}
+  </style>
+</head>
+<body>
+  <div id="stage">
+    <div id="viewport">
+      <svg id="connections"></svg>
+      <div id="canvas"></div>
+    </div>
+  </div>
+
+  <div class="breadcrumb" id="breadcrumb">Technical AI Safety</div>
+
+  <div class="info-panel" id="infoPanel">
+    <h2 id="infoTitle">Loading…</h2>
+    <p id="infoDesc">Please select a node.</p>
+
+    <div class="info-section" id="papersSection" style="display:none">
+      <h3 style="margin:0 0 8px 0">Papers</h3>
+      <div id="papersList"></div>
+    </div>
+
+    <div class="info-section" id="childrenSection" style="display:none">
+      <h3 style="margin:0 0 8px 0">Children</h3>
+      <div id="childrenList"></div>
+    </div>
+
+    <!-- <div class="button-row">
+      <button class="btn" id="goParentBtn">Go to Parent</button>
+      <button class="btn secondary" id="goRootBtn">Go to Root</button>
+    </div> -->
+  </div>
+
+  <!-- YAML parser (js-yaml) -->
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+
+  <!-- modules -->
+  <script type="module" src="./data.js"></script>
+  <script type="module" src="./mindmap.js"></script>
+</body>
+</html>
