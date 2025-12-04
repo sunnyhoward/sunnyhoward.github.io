@@ -1,7 +1,7 @@
 name: "Technical AI Safety"
 description: "Recently I have been learning about technical AI safety, and wanted a place to arrange the literature. Hopefully it can also be 
 useful to someone else...This contains an overview of the different Technical AI Safety areas, along with key papers for each.\n\nNaturally 
-many of these areas will blend into each other."
+many of these areas will blend into each other. This is a work in progress..."
 children:
   - name: "Mechanistic Interpretability"
     description: "This field is about delving into the weights of the neural network in order to understand model internals 

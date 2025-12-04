@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+  <head>
+    <!-- Page setup -->
+    <meta charset="utf-8">
+    <title>Sunny's Website</title>
+    <meta name="description" content="Personal Website of Sunny Howard">
+    <meta name="author" content="Sunny Howard">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <link rel="icon" type="image/png" href="favicon.png">
+  
+    <!-- Stylesheets -->
+    <!-- Reset default styles and add support for google fonts -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet" type="text/css" />
+    <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css" />
+   
+    <!-- Custom styles -->
+    <link href="style.css" rel="stylesheet" type="text/css" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>    
+
+    <!-- Want to add Bootstrap? -->
+    <!-- Visit: https://getbootstrap.com/docs/4.3/getting-started/introduction/ -->
+    
+  </head>
+  
+  <body>
+
+    <header id="header">
+      <h1>Sunny's Website</h1>
+      <img src="sun.png" style="width: 200px; height: 200px;">
+      
+      <!-- Menu link fragment #id should match a div id. Example: <a href="#home"> links to <div id="home"></div>  -->
+      <ul class="main-menu">
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="AI-Safety/">AI Safety Mindmap</a></li> <!-- New page link -->
+        <li><a href="#cv">CV</a></li> <!-- New page link -->
+        
+      </ul>                 
+    </header>
+   
+    <div id="container">
+      <div class="inner">
+        <div id="content"> 
+                 
+          <div id="about" class="content-region hide">
+            <p>
+              Everyone seems to have a website now, so I thought I'd make one too. I'm Sunny, and I'm looking to move into helping with the efforts to keep AI safe. 
+
+              <br><br>
+
+              I recently finished my Physics PhD at Oxford, working with lots of machine learning to capture the structure of ultra-intense laser pulses. If anyone wants to work on this intersection I would massively recommend my supervisors, <a href="https://www.physics.ox.ac.uk/our-people/dopp">Andreas</a> and <a href="https://www.physics.ox.ac.uk/our-people/norreys">Peter</a>. Before this, I did a short time in Cambridge working on nanophotonics and studied Physics and Machine Learning at Nottingham (BSc and MSc respectively).  <br><br>
+
+              During my MSc I read some books on the impact of superintelligent AI, like Life 3.0 and Human Compatible. It seemed very important, but also a problem far in the future. In the last 5 years, LLMs have gone from struggling to make coherent sentences to being able to answer physics problems better than PhD students (yikes). At the same time, they are already exhibiting misalignment, like deception. Thus, I feel that one of the most valuable things one can do is to work to ensure that AI is beneficial for all beings.
+            </p>
+          </div>
+          
+          <div id="projects" class="content-region hide">
+            <h2>Projects</h2>
+            <p>
+              Pellentesque nec nam aliquam sem et tortor consequat. Quisque sagittis purus sit amet volutpat consequat. Magna eget est lorem ipsum dolor. 
+            </p>
+          </div>
+
+          <div id="cv" class="content-region hide">
+            <div id="cv-section">              
+              <iframe 
+                  src="CV.pdf" 
+                  width="100%" 
+                  height="800px" 
+                  style="border: none;"
+                  title="My CV Embedded Document">
+              </iframe>
+          </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <footer>  
+      
+    </footer>
+    
+    <!-- Load additional JS scripts here -->
+    <script type="text/javascript" src="script.js"></script>
+    
+  </body>
+</html>

@@ -13,11 +13,65 @@
       --muted: #000000;
     }
     html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
-    body{
-      background: linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%);
-      overflow:hidden;
-    }
+    body {
+    /* CRITICAL: Set position for the overlay */
+    position: relative; 
+    /* 1. Set the image path */
+    background-image: url('../background.jpg');
+    background-size: cover; 
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw; 
+}
+body::before {
+    /* Required to make pseudo-element display */
+    content: ""; 
+    
+    /* Position and size it to cover the entire body */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    
+    /* THIS IS THE DARKNESS LAYER: black with 50% opacity */
+    background-color: rgba(0, 0, 0, 0.5); 
+    
+    /* Ensure the overlay is behind the map content but on top of the image */
+    z-index: -1; 
+}
 
+#backButton {
+    /* Position it fixed relative to the viewport */
+    position: fixed; 
+    
+    /* Set its location */
+    bottom: 20px; 
+    left: 20px;
+    
+    /* Basic button styling */
+    padding: 10px 15px;
+    border: 1px solid #667eea; /* Border matching link color */
+    border-radius: 5px;
+    background-color: rgba(223, 166, 12, 0.8); /* Slightly transparent background */
+    color: #fff; /* White text */
+    text-decoration: none; /* Remove underline */
+    font-weight: 600;
+    cursor: pointer;
+    
+    /* Ensure it's on top of the map */
+    z-index: 1000; 
+    
+    /* Add a hover effect */
+    transition: background-color 0.2s;
+}
+
+#backButton:hover {
+    background-color: rgba(102, 126, 234, 0.2); /* Slightly darker on hover */
+}
     /* stage + viewport */
     #stage{position:relative;width:100vw;height:100vh;overflow:hidden}
     #viewport{position:absolute;left:0;top:0;transform-origin:0 0;transition:transform 600ms cubic-bezier(.22,.9,.32,1)}
@@ -33,16 +87,16 @@
       padding:12px 18px;
       border-radius:12px;
       background:var(--panel-bg);
-      box-shadow:0 10px 30px rgba(0, 0, 0, 0.18);
+      box-shadow:0px 0px 20px 20px rgba(242, 246, 5, 0.076);
       cursor:pointer;
       user-select:none;
       z-index:10;
-      font-weight:600;
-      color:#2d3748;
+      font-weight:700;
+      color:#000000;
       transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
       white-space:nowrap;
     }
-    .node:hover{transform:translate(-50%,-50%) scale(1.05); box-shadow:0 18px 40px rgba(0,0,0,0.25)}
+    .node:hover{transform:translate(-50%,-50%) scale(1.05); box-shadow:0px 0px 20px 20px rgba(178, 222, 21, 0.25)}
     .node.center{background:linear-gradient(135deg,var(--bg1) 0%,var(--bg2) 100%); color:white; font-size:18px; padding:16px 22px}
     .node.category{background:linear-gradient(135deg,#4299e1 0%,#667eea 100%); color:white;}
     .node.prev-level{background:#000000; color:#ffffff;}
@@ -86,6 +140,11 @@
 </head>
 <body>
   <div id="stage">
+    
+    <a id="backButton" href="https://sunnyhoward.github.io/">
+        Sunny Howard
+    </a>
+
     <div id="viewport">
       <svg id="connections"></svg>
       <div id="canvas"></div>
@@ -108,16 +167,10 @@
       <div id="childrenList"></div>
     </div>
 
-    <!-- <div class="button-row">
-      <button class="btn" id="goParentBtn">Go to Parent</button>
-      <button class="btn secondary" id="goRootBtn">Go to Root</button>
-    </div> -->
-  </div>
+    </div>
 
-  <!-- YAML parser (js-yaml) -->
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 
-  <!-- modules -->
   <script type="module" src="./data.js"></script>
   <script type="module" src="./mindmap.js"></script>
 </body>
