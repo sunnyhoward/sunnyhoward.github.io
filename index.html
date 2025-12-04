@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   <head>
     <!-- Page setup -->
     <meta charset="utf-8">
@@ -36,8 +37,6 @@
         <li><a href="#about">About</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="AI-Safety/">AI Safety Mindmap</a></li> <!-- New page link -->
-        <li><a href="#cv">CV</a></li> <!-- New page link -->
-        
       </ul>                 
     </header>
    
@@ -47,33 +46,98 @@
                  
           <div id="about" class="content-region hide">
             <p>
-              Everyone seems to have a website now, so I thought I'd make one too. I'm Sunny, and I'm looking to move into helping with the efforts to keep AI safe. 
+              Everyone seems to have a website now, so I thought I'd make one too. I'm Sunny, and I'm an aspiring AI safety researcher. 
 
               <br><br>
 
-              I recently finished my Physics PhD at Oxford, working with lots of machine learning to capture the structure of ultra-intense laser pulses. If anyone wants to work on this intersection I would massively recommend my supervisors, <a href="https://www.physics.ox.ac.uk/our-people/dopp">Andreas</a> and <a href="https://www.physics.ox.ac.uk/our-people/norreys">Peter</a>. Before this, I did a short time in Cambridge working on nanophotonics and studied Physics and Machine Learning at Nottingham (BSc and MSc respectively).  <br><br>
+              I recently finished my Physics PhD at Oxford, working with lots of machine learning to capture the structure of ultra-intense laser pulses. If anyone wants to work on this intersection I would massively recommend my supervisors, <a href="https://www.physics.ox.ac.uk/our-people/dopp">Andreas</a> and <a href="https://www.physics.ox.ac.uk/our-people/norreys">Peter</a>. Before this, I did a short time in Cambridge working on nanophotonics and studied Physics and Machine Learning at Nottingham (BSc and MSc respectively). Here is my <a href="CV.pdf">CV</a>. <br><br>
 
-              During my MSc I read some books on the impact of superintelligent AI, like Life 3.0 and Human Compatible. It seemed very important, but also a problem far in the future. In the last 5 years, LLMs have gone from struggling to make coherent sentences to being able to answer physics problems better than PhD students (yikes). At the same time, they are already exhibiting misalignment, like deception. Thus, I feel that one of the most valuable things one can do is to work to ensure that AI is beneficial for all beings.
+              During my MSc I read some books on the impact of superintelligent AI, like Life 3.0 and Human Compatible. It seemed very important, but also a problem far in the future. In the last 5 years, LLMs have gone from struggling to make coherent sentences to being able to answer physics problems better than PhD students (yikes). At the same time, they are already exhibiting misalignment in test cases, such as <a href="https://www.anthropic.com/research/agentic-misalignment">blackmailing officials</a>,  <a href="https://openai.com/index/detecting-and-reducing-scheming-in-ai-models/">behaving differently when they know they're being tested</a>. Thus, I feel that one of the most valuable things one can do is to work to ensure that AI is beneficial for all beings.<br><br>
+
+              Outside of work, I like things like Buddhism, climbing and music. 
             </p>
           </div>
           
           <div id="projects" class="content-region hide">
             <h2>Projects</h2>
-            <p>
-              Pellentesque nec nam aliquam sem et tortor consequat. Quisque sagittis purus sit amet volutpat consequat. Magna eget est lorem ipsum dolor. 
-            </p>
-          </div>
+            
+            <!-- Sub-menu for projects -->
+            <ul class="sub-menu">
+              <li><a href="#lasers" class="active-project">Capturing Laser Pulses</a></li>
+              <li><a href="#coordgate">Positional Encoding in CNNs</a></li>
+              <li><a href="#wavefronts">Overcomplete Dictionaries for Wavefront Sensing</a></li>
+              <li><a href="#tensornetworks">Reinforcement Learning with Tensor Networks</a></li>
+            </ul>
+            
+            <!-- Project content areas -->
+            <div id="lasers" class="project-content active-project-content">
+              <h3>Capturing the structure of individual Ultra-intense laser pulses</h3>
+              <center><img src="dalle.png" style="width: 300px; height: 300px;"></center>
+              <center><small>A Dalle-generated image from a frustrating PhD day: "Ultra intense laser destroying Oxford college, in style of Van Gogh".</small></center>
+              <br>
 
-          <div id="cv" class="content-region hide">
-            <div id="cv-section">              
-              <iframe 
-                  src="CV.pdf" 
-                  width="100%" 
-                  height="800px" 
-                  style="border: none;"
-                  title="My CV Embedded Document">
-              </iframe>
-          </div>
+              <p>
+                There were two papers from this work, in <a href="https://www.nature.com/articles/s41566-025-01698-x">Nature Photonics</a> and <a href="https://www.cambridge.org/core/journals/high-power-laser-science-and-engineering/article/hyperspectral-compressive-wavefront-sensing/216AC43C1ECCC6C94F725BD080B1571A">HPLSE</a>. Firstly, you might need to be convinced that ultra-intense laser pulses are cool and worth reading about, so here's something from my thesis:<br><br>  
+                <i> 
+                  "To begin to intuit the level of extremity of these phenomena, one can make some
+                  comparisons. The peak power of these lasers is ~3 orders of magnitude larger than the
+                  total average global power consumption [5, 6], and when a pulse is subsequently focused
+                  down to a 1.1μm<sup>2</sup> spot, its resultant peak intensity of 10<sup>23</sup>W cm<sup>-2</sup> is larger than if the
+                  entire luminosity of the sun passed through a typical car's windscreen [7, 8]. The pulse
+                  achieves these extreme conditions despite having an energy of ~100J, approximately the
+                  same as a human expends in a single second, hinting at the brevity of its duration of tens
+                  of femtoseconds (10<sup>-15</sup> s), which is to a second what a second is to 3 million years."
+                </i><br><br>
+
+              The purpose of these phenomena is to compress energy as much as possible in space and time, and then to use this extreme intensity to do things in particle acceleration or nuclear fusion. Thinking of these dimensions separately, temporally the pulse is made as short as possible by the superposition of many frequencies (colours), all in phase, <span class="tooltip">creating a spike in time. <span class="tooltip-text">Considering many waves of different frequencies, \(e^{i \omega t} \), this can be seen by the Fourier transform of a constant function: \(\int_{-\infty}^{\infty} e^{i \omega t} \, d\omega = \delta(t) \)</span> </span> Spatially, the pulse is focused down with a parabolic mirror to a spot size close to the diffraction limit. As long as we are not focusing too strongly, then conveniently the pattern of the focused field will be proportional to the Fourier transform of the initial field.<br><br>
+
+              So far, so good. However, things start to become more complicated when we consider that the pulse will not be ideal, and there will be distortions in space, time and coupled across space and time. Temporal distortions mean that our different frequency components are no longer in phase, resulting in the stretching of the pulse and consequently less intensity. Similarly, any high spatial frequencies in the pulse's spatial profile will also reduce the peak intensity when focused. Spatiotemporal couplings are more complicated distortions that mean that different spatial positions have different temporal profiles, or vice versa. These are the ones that are difficult to detect, because they are invisible to any measurement technique that works only in space or time, and they have been shown to significantly degrade the peak intensity (which was the whole point of these lasers in the first place). Consequently, it is important to characterize the full spatiotemporal structure of each ultra-intense laser pulse (as there may also be shot-to-shot fluctuations), and this is what this project addressed.  <br><br>
+              
+              It's a hard problem because the laser pulse is very high dimensional (when you consider it's also a vector field), but we're trying to capture it just on a two-dimensional sensor. So some machine learning and inverse problems methods were used. One approach we thought of was using this experimental setup, with snapshot compressive imaging.
+              <center><img src="raven1.png" style="width: 600px; height: 300px;"></center> <br>
+
+              So we have some big cube of laser information that we want to capture, in space and time; lets call it \(\vec{m}\). But we only get to capture it by projecting it onto a single capture of a two-dimensional spatial sensor; lets say the result is \(\vec{n}\), and the measurement process is \(\mathbf{\Phi}\), so that, \( \vec{n} = \mathbf{\Phi}\vec{m}\). The trick is to design the measurement process so it samples the high dimensional data in a clever way, so that one can reconstruct it later. This is based on compressed sensing, and is the part of the experimental setup in the yellow box... for more details read the paper. Then to reconstruct the cube we solve an equation like, 
+              <center>
+              \(\tilde{\vec{m}} = \textrm{argmin}_{\vec{m}}\left[ \underbrace{||\vec{n} - \mathbf{\Phi}\vec{m}||^{2}}_{\mbox{{data term}}} + \underbrace{\eta \mathcal{R}(\vec{m},\psi)}_{\mbox{{regulariser}}}\right], \) <br>            
+            </center>
+            which we did with deep unrolling.
+            Using a slightly different set up, we got some experimental results on a Petawatt class laser in Munich. Firstly a plot of the complete structure of a single ultra-intense laser pulse (previously not possible). Shown with a 3d plot in space and time, and then subplots with projections onto space and time. <br><br>
+              <center>
+              <div class="white-box">
+                <img src="ravenresult1.jpg" style="width: 600px; height: 250px;">
+              </div>
+            </center><br>
+
+            And because we are able to capture individual pulses, we can also see how the spatiotemporal couplings change over time, and the resulting effect on the peak intensity. Here we see the evolution of the pulse front tilt (PFT, a spectrally changing spatial tilt), and pulse front curvature (PFC, spectrally changing angle of curvature), when we change the energy in the laser. Also shown is the spatiotemporal Strehl ratio; this is a measure of how much intensity has been reduced due to spatiotemporal couplings. We see clear long-time stabilization effects after change are made to the laser! <br><br>
+            <center>
+              <div class="white-box">
+                <img src="raven_result2.jpg" style="width: 550px; height: 650px;">
+              </div>
+            </center><br>
+              </p>
+            </div>
+            
+            
+            <div id="coordgate" class="project-content">
+              <h3>Positional Encoding in CNNs</h3>
+              <p>
+                Content about CoordGate and positional encoding goes here...
+              </p>
+            </div>
+            
+            <div id="wavefronts" class="project-content">
+              <h3>Overcomplete Dictionaries</h3>
+              <p>
+                Content about wavefronts and overcomplete dictionaries goes here...
+              </p>
+            </div>
+            
+            <div id="tensornetworks" class="project-content">
+              <h3>Reinforcement Learning with Tensor Networks</h3>
+              <p>
+                Content about tensor networks in RL goes here...
+              </p>
+            </div>
           </div>
           
         </div>

@@ -176,3 +176,128 @@ ul.main-menu li a.active {
 
 /* If you want the image to be placed immediately after the text on the left, 
  the H1 and IMG wou
+
+ /* --- Tooltip Styles --- */
+
+/* 1. Base Container: Set up relative positioning for absolute child positioning */
+.tooltip {
+  position: relative;
+  display: inline-block; /* Essential to wrap the text nicely */
+  cursor: help; /* Change cursor to indicate interaction */
+  margin-left: 5px;
+    color: #ffffff;
+    text-decoration: dotted underline;
+    text-underline-offset: 3px;
+}
+
+/* 2. Hidden Pop-out Text */
+.tooltip-text {
+  /* Positioning relative to the .tooltip container */
+  position: absolute;
+  z-index: 100; /* Ensure it's above other elements */
+  bottom: 125%; /* Position above the trigger text */
+  left: 50%;
+  transform: translateX(-50%); /* Center the pop-out text horizontally */
+  
+  /* Appearance */
+  width: 300px; /* Adjust width as needed */
+  background-color: #333; /* Dark background */
+  color: #fff; /* White text */
+  padding: 10px;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+  /* Hiding mechanism */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+/* 3. The Hover Effect: Make it visible and adjust opacity/position */
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-5px); /* Pops up slightly */
+}
+
+/* Optional: Pointer/Arrow */
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%; /* At the bottom edge of the tooltip box */
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent; /* Creates a downward-pointing triangle */
+}
+
+/* Optional: The Trigger Icon */
+.tooltip-trigger {
+  font-size: 14px;
+  color: #4299e1; /* A distinct color */
+}
+
+/* Styling for the inner project navigation list */
+.sub-menu {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ccc;
+  display: flex; /* Makes the links display horizontally */
+}
+
+.sub-menu li a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #ffffff;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.sub-menu li a:hover {
+  color: #ffffff;
+  background-color: rgba(239, 109, 61, 0.3);
+}
+
+/* Style for the currently active sub-menu link */
+.sub-menu li a.active-project {
+  color: #ffffff; /* Highlight color */
+  border-bottom: 5px solid #EF6D3D;
+  font-weight: 3000;
+}
+
+/* Hide all project content areas by default */
+.project-content {
+  display: none;
+  padding-top: 1px;
+}
+
+/* Show only the content area with this class */
+.active-project-content {
+  display: block;
+}
+
+.img-with-text {
+  display: flex;
+  align-items: center;
+  gap: 20px;        /* Space between image and text */
+  margin: 20px 0;  /* Spacing around the block */
+}
+
+.img-with-text img {
+  width: 300px;
+  height: 300px;
+}
+
+.img-with-text p {
+  margin: 0;
+  max-width: 400px;  /* Prevent the text from stretching too wide */
+}
+.white-box {
+  background: white;
+  padding: 10px;        /* optional */
+  display: inline-block;
+  border-radius: 4px;   /* optional */
+}

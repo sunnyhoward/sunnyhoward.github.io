@@ -27,3 +27,21 @@
   });
   
 })(jQuery);
+
+// Handle sub-menu navigation within Projects
+$(document).on('click', '.sub-menu a', function(e) {
+  e.preventDefault();
+  
+  // Remove active class from all sub-menu links
+  $('.sub-menu a').removeClass('active-project');
+  
+  // Add active class to clicked link
+  $(this).addClass('active-project');
+  
+  // Hide all project content
+  $('.project-content').removeClass('active-project-content');
+  
+  // Show the target project content
+  const targetId = $(this).attr('href');
+  $(targetId).addClass('active-project-content');
+});
