@@ -2,28 +2,26 @@ name: "Technical AI Safety"
 description: "Recently I have been learning about technical AI safety, and wanted a place to arrange the literature. Hopefully it can also be 
 useful to someone else...This contains an overview of the different Technical AI Safety areas, along with key papers for each.\n\nNaturally 
 many of these areas will blend into each other. This is a work in progress..."
+sites:
+- title: "Lesswrong"
+  summary: "A website devoted to the discussion of rationality, cognitive biases, and AI alignment."
+  url: "https://www.lesswrong.com/"
+- title: "AI Alignment Forum"
+  summary: "A website devoted to the discussion of AI alignment."
+  url: "https://www.alignmentforum.org/"
+- title: "AI Alignment Knowledge graph"
+  summary: "Something similar to what is being built here, but with much more detail."
+  url: "https://alignmentgraph.com/"
+
+  
 children:
   - name: "Mechanistic Interpretability"
-    description: "This field is about delving into the weights of the neural network in order to understand model internals 
-    and how representations map to computation."
-    papers:
-      - title: "A Mathematical Framework for Transformer Circuits"
-        authors: "Elhage et al."
-        summary: "Provides a formal framework for analyzing transformer circuits."
-        url: "https://arxiv.org/abs/2302.06159"
+    description: "This field is about delving into the weights of the neural network in order to understand model internals and how representations map to computation. With significant evidence of deception in current models, it is plausible that purely behavioural studies will not be sufficient as the model's capabilities in scheming improve. The attractive thing about studying the models internals is that it may bypass this problem.\n\n 
+    
+    There is a very long term goal of being able to fully reverse engineer a model, understanding all its steps of reasoning. Some are pessimistic on how possible this actually is, but there are also a number of more immediately useful techniques in this space. Also included are papers generally on model internals."
     children:
-      - name: "Sparse Autoencoders (SAEs)"
-        # Use the pipe character (|) to start a literal block.
-        # This tells the parser to preserve all newlines and blank lines exactly.
-        description: "
-          Motivation: Neurons in LLMs often represent superpositions of features, meaning we can't properly intepret what the network is doing. SAEs can help disentangle these. \n\nHere we train an autoencoder to represent some section of the network, where the autoencoder has a very large latent space (bigger than the size of the original layer). By then applying sparsity in the latent space, we can force the autoencoder to learn a basis of features that are more interpretable."
-        papers:
-          - title: "Towards Monosemanticity: Decomposing Language Models With Dictionary Learning"
-            authors: "Cunningham et al."
-            summary: "Uses sparse autoencoders to decompose activations into interpretable features."
-            url: "https://transformer-circuits.pub/2023/monosemantic-features/index.html"
       - name: "Circuits & Features"
-        description: "Circuit-level analyses and feature discovery."
+        description: "Circuit-level analyses and feature discovery. This is more along the ideas of reverse engineering the models reasoning process (the 'circuit')."   
         children:
           - name: "Induction Heads"
             description: "Mechanisms for in-context learning in transformers."
@@ -31,10 +29,51 @@ children:
               - title: "In-context Learning and Induction Heads"
                 authors: "Olsson et al."
                 summary: "Shows induction heads as a mechanism for in-context learning."
-                url: "https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html"
+                url: "https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html" 
+          - name: "Sparse Autoencoders (SAEs)"
+            description: "This is the key method that has been used to extract monosemantic features from LLMs. \n\nMotivation: Neurons in LLMs often represent superpositions of features, meaning we can't properly intepret what the network is doing. SAEs can help disentangle these. \n\nHere we train an autoencoder to represent some section of the network, where the autoencoder has a very large latent space (much bigger than the size of the original layer). By then applying sparsity in the latent space, we can force the autoencoder to learn a basis of features that are hopefully monosemantic and interpretable."
+        
+        papers:
+          - title: "A Mathematical Framework for Transformer Circuits"
+            authors: "Elhage et al."
+            summary: "Provides a formal framework for analyzing transformer circuits."
+            url: "https://arxiv.org/abs/2302.06159"
+          - title: "Towards Monosemanticity: Decomposing Language Models With Dictionary Learning"
+            authors: "Cunningham et al."
+            summary: "Uses sparse autoencoders to decompose activations into interpretable features."
+            url: "https://transformer-circuits.pub/2023/monosemantic-features/index.html"
+          - title: "Scaling Monosemanticity: Extracting Interpretable Features from Claude 3 Sonnet"
+            authors: "Templeton et al."
+            summary: "Extracting millions of features from a production model. This included features directly related to things like deception and sycophancy."
+            url: "https://transformer-circuits.pub/2024/scaling-monosemanticity/"
+        sites:
+            - title: "Neuronpedia"
+              summary: "A website cataloguing neurons and circuits in transformer models."
+              url: "https://www.neuronpedia.org/"     
+      
+      - name: "Probes"
+        description: "You train a simple model (eg a linear classifier) on the activations of a model to predict some linguistic property (eg part of speech tags). If the probe performs well, this is taken as evidence that the model encodes that linguistic property in its activations. They are very fast and cheap... this is part of the pragmatic side of internals research."
+        papers:
+          - title: "Detecting Strategic Deception Using Linear Probes"
+            authors: "Goldowsky-Dill et al."
+            summary: "Using linear probes on the model's activations to detect deception."
+            url: "https://arxiv.org/abs/2502.03407"
+      
+
+      - name: "Introspection"
+        description: "A very interesting recent observation is that models can often report on their own internal states. This opens up a lot of possibilities (and concerns) for interpretability and safety."
+        papers:
+              - title: "Signs of introspection in large language models"
+                authors: "Lindsey et al."
+                summary: "They manually inject patterns associated with concepts directly into the models activations, and the model self-reports."
+                url: "https://transformer-circuits.pub/2025/introspection/index.html"
+              - title: "Looking Inward: Language Models Can Learn About Themselves by Introspection"
+                authors: "Evans et al."
+                summary: "Here they show that a weaker model, M1, can outperform a stronger model, M2, in predicting its own behaviour, which is attributed to the idea that it can introspect."
+                url: "https://arxiv.org/abs/2410.13787"
         
   - name: "Alignment"
-    description: "Methods for aligning models with human values and intent."
+    description: "Methods for aligning models with human values and intent. Can be split into outer and inner alignment. The former considers the question of is the training objective actually aligned with our desired values (and also the question of how do we even determine our shared desired values). Inner alignment then considers the question of does the model actually optimize for the training objective, or does it develop some other misaligned objective internally."
     children:
       - name: "RLHF"
         description: "Reinforcement learning from human feedback and its variants."
@@ -45,8 +84,13 @@ children:
             url: "https://arxiv.org/abs/2203.02155"
       - name: "Value Learning"
         description: "Approaches to infer human values and preferences."
+  
   - name: "Evaluations"
     description: "Benchmarks and metrics to measure capability and alignment."
+    sites: 
+     - title: "Apollo Research Guide"
+       summary: "A comprehensive guide to AI model evaluations."
+       url: "https://www.apolloresearch.ai/blog/a-starter-guide-for-evals/"
     children:
       - name: "Capability Evals"
         description: "Tests for model knowledge and reasoning."
@@ -57,3 +101,54 @@ children:
             url: "https://arxiv.org/abs/2009.03300"
 
   - name: "Control"
+    description: "Methods to control and oversee AI systems."
+    papers:
+      - title: "AI Control: Improving Safety Despite Intentional Subversion"
+        authors: "Greenblatt et al."
+        summary: "Development and evaluation of safety protocol pipelines."
+        url: "https://arxiv.org/abs/2312.06942"
+    children:
+        - name: "Scalable Oversight"
+          description: "Humans can't directly oversee everything a model does, especially as the model's capabilities exceed ours, both due to a lack of time and expertise. So how can one ensure that a model is doing what we want, even when we can't directly oversee it? This is the problem of scalable oversight."
+          papers:
+            - title: "Training Language Models to Follow Instructions with Human Feedback"
+              authors: "Ouyang et al."
+              summary: "Introduces InstructGPT and RLHF pipeline."
+              url: "https://arxiv.org/abs/2203.02155"
+        - name: "Red teaming & Jailbreaks"
+          description: "Techniques to identify and mitigate model vulnerabilities."
+          papers:
+            - title: "Constitutional Classifiers: Defending against universal jailbreaks"
+              authors: "Sharma et al."
+              summary: "Define some constitution that the model should follow, and then train a classifier to analyse the models inputs and outputs to check that it is obeying the constitution."
+              url: "https://www.anthropic.com/news/constitutional-classifiers"
+
+
+  - name: "Misalignment Evidence"
+    description: "Empirical findings that highlight risks and misalignment in AI systems."
+    children:
+      - name: "Reward Hacking"
+        description: "Instances where models exploit loopholes in their reward functions."
+        papers:
+          - title: "Natural emergent misalignment from reward hacking in production RL"
+            authors: "MacDiarmid et al."
+            summary: "They give the model knowledge of typical reward hacking strategies during training, and find that the model naturally generalizes this bad behaviour to further misalignment  like sabotage and collaborating with malicious actors."
+            url: "https://www.anthropic.com/research/emergent-misalignment-reward-hacking"
+      - name: "Deception/Scheming"
+        description: "Evidence of models engaging in deceptive or scheming behaviour; i.e. pretending to be aligned while secretly pursuing some other agenda. This is also very linked to situational awareness, where the model learns to act differently during evaluation and in deployment."
+        papers:
+          - title: "Agentic Misalignment: How LLMs could be insider threats"
+            authors: "Anthropic"
+            summary: "Allowed leading models to send emails and access sensitive information in test business environments, and gave the agents simple harmless goals like 'increase company profits'. The models resorted to behaviours such as blackmailing officials (when threatened with shutdown), and leaking sensitive information to competitors."
+            url: "https://www.anthropic.com/research/agentic-misalignment"
+
+          - title: "Detecting and reducing scheming in AI models"
+            authors: "OpenAI & Apollo Research"
+            summary: "Model takes context about not being deployed if it performs well, and then deliberately performs poorly during evaluation. In the paper they develop methods to detect and reduce this behaviour."
+            url: "https://www.antischeming.ai/"
+
+          - title: "Frontier Models are Capable of In-context Scheming"
+            authors: "Meinke et al."
+            summary: "Frontier models (with no further fine-tuning) are placed in environment that encourages scheming. They attempt to disable their oversight mechanisms and exfiltrate their model weights to external servers (presumably with the intention of maintaining their existence). Their deceptive reasoning was confirmed with chain-of-thought traces."
+            url: "https://arxiv.org/abs/2412.04984"
+          

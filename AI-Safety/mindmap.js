@@ -10,6 +10,9 @@ const infoTitle = document.getElementById('infoTitle');
 const infoDesc = document.getElementById('infoDesc');
 const papersSection = document.getElementById('papersSection');
 const papersList = document.getElementById('papersList');
+const sitesSection = document.getElementById('sitesSection');
+const sitesList = document.getElementById('sitesList');
+const vertical_offset = 0;
 
 let root = null;
 let current = null;
@@ -24,6 +27,10 @@ let selectedFinalNodeEl = null;
 const WORLD = { width: 3000, height: 2000 };
 const WORLD_CENTER_X = WORLD.width / 2;
 const WORLD_CENTER_Y = WORLD.height / 2;
+const ACCENT_COLOR = "#1F8BFF";   // pick any colour you want
+
+const INFO_PANEL_WIDTH = 350; // Estimate the pixel width of your right info panel.
+
 
 canvas.style.width = WORLD.width + 'px';
 canvas.style.height = WORLD.height + 'px';
@@ -115,22 +122,51 @@ function handleFinalNodeClick(node, el) {
 
 
 function updateInfoPanel(node) {
+    if (!node) return; // Safety check
+    
     infoTitle.textContent = node.name || 'Untitled';
     infoDesc.textContent = node.description || 'No description provided.';
     infoDesc.classList.add("description");
-    breadcrumb.innerHTML = renderBreadcrumbs(); 
+    breadcrumb.innerHTML = renderBreadcrumbs();
 
-    // papers
+    // ---- SITES ----
+    sitesList.innerHTML = '';
+if (node.sites && node.sites.length > 0) {
+    sitesSection.style.display = 'block';
+    node.sites.forEach(s => {
+        const el = document.createElement('div');
+        el.className = 'site-item';
+        el.innerHTML = `
+            <div style="font-weight:700">
+                <a href="${s.url || '#'}" target="_blank" 
+                   style="color:${ACCENT_COLOR}; text-decoration:none;">
+                    ${s.title || 'Untitled'}
+                </a>
+            </div>
+            <div style="font-size:13px;color:#4a5568;margin:6px 0">
+                ${s.summary || ''}
+            </div>
+        `;
+        sitesList.appendChild(el);
+    });
+} else {
+    sitesSection.style.display = 'none';
+}
+
+    // ---- PAPERS ----
     papersList.innerHTML = '';
-    if (node.papers && node.papers.length>0) {
+    if (node.papers && node.papers.length > 0) {
         papersSection.style.display = 'block';
-        node.papers.forEach(p=>{
+        node.papers.forEach(p => {
             const el = document.createElement('div');
             el.className = 'paper-item';
-            el.innerHTML = `<div style="font-weight:700">${p.title || 'Untitled'}</div>
-            <div style="font-size:13px;color:#718096;margin:6px 0">${p.authors || ''}</div>
-            <div style="font-size:13px;color:#4a5568">${p.summary || ''}</div>
-            <div style="margin-top:8px"><a href="${p.url||'#'}" target="_blank">${p.url? 'Open paper' : ''}</a></div>`;
+            el.innerHTML = `
+                <div style="font-weight:700">${p.title || 'Untitled'}</div>
+                <div style="font-size:13px;color:#718096;margin:6px 0">${p.authors || ''}</div>
+                <div style="font-size:13px;color:#4a5568">${p.summary || ''}</div>
+                <div style="margin-top:8px">
+                    <a href="${p.url || '#'}" target="_blank">${p.url ? 'Open paper' : ''}</a>
+                </div>`;
             papersList.appendChild(el);
         });
     } else {
@@ -138,36 +174,36 @@ function updateInfoPanel(node) {
     }
 }
 
+
 /**
  * Breadcrumb builder. Ancestor nodes are clickable links.
  */
 function renderBreadcrumbs(){
-  // i is the index in the parentStack
-  const parts = parentStack.map((n, i) => {
-      const a = document.createElement('a');
-      a.href = 'javascript:void(0);'; 
-      a.textContent = n.name;
-      // Pass the index for navigation up the stack
-      a.onclick = () => goToNodeFromBreadcrumb(i); 
-      
-      a.style.color = '#667eea'; 
-      return a.outerHTML;
-  }).concat(current ? [`<strong>${current.name}</strong>`] : []); 
-  
-  return parts.join(' › ');
+    // i is the index in the parentStack
+    const parts = parentStack.map((n, i) => {
+        const a = document.createElement('a');
+        a.href = `javascript:goToNodeFromBreadcrumb(${i});`; 
+        a.textContent = n.name;
+        a.style.color = '#667eea'; 
+        return a.outerHTML;
+    }).concat(current ? [`<strong>${current.name}</strong>`] : []); 
+    
+    return parts.join(' › ');
 }
 
 /**
 * Function to navigate to an ancestor node clicked in the breadcrumb trail.
 * @param {number} targetIndex - The index of the node in the parentStack to navigate to.
 */
-function goToNodeFromBreadcrumb(targetIndex) {
+// Make this function global so javascript: href can access it
+window.goToNodeFromBreadcrumb = function(targetIndex) {
   let newCurrent;
 
   // 1. Determine the new current node and update the stack
   newCurrent = parentStack[targetIndex];
-  // Remove all nodes from the stack that are deeper than the target (index + 1)
-  parentStack.splice(targetIndex + 1);
+  // Remove the target node and everything after it from the stack
+  // The target becomes the new current, so it shouldn't be in parentStack
+  parentStack.splice(targetIndex);
   
   if (newCurrent === current) return; 
 
@@ -304,9 +340,14 @@ function enterChild(childNode, childX=null, childY=null, childEl=null){
 
     smoothZoomTo(oldNodeX, oldNodeY, targetScale).then(()=>{
         
-        tx = (window.innerWidth / 2) - (WORLD_CENTER_X * targetScale);
-        ty = (window.innerHeight / 2) - (WORLD_CENTER_Y * targetScale);
+        // --- MODIFIED POST-ZOOM TRANSFORMATION ---
+        const effectiveScreenWidth = window.innerWidth - INFO_PANEL_WIDTH;
+        const targetScreenCenterX = effectiveScreenWidth / 2;
+
+        tx = targetScreenCenterX - (WORLD_CENTER_X * targetScale);
+        ty = (window.innerHeight / 2) - (WORLD_CENTER_Y * targetScale) + vertical_offset;
         applyTransform();
+        // ------------------------------------------
         
         viewport.style.transition = '';
         renderLevel(WORLD_CENTER_X, WORLD_CENTER_Y);
@@ -317,18 +358,23 @@ function enterChild(childNode, childX=null, childY=null, childEl=null){
 
 function smoothZoomTo(wx, wy, targetScale=1.0, recenter = false){
     return new Promise(resolve=>{
-        const screenCenterX = window.innerWidth/2;
         const screenCenterY = window.innerHeight/2;
         
+        // Use the center of the EFFECTIVE viewport (excluding the info panel)
+        const effectiveScreenWidth = window.innerWidth - INFO_PANEL_WIDTH;
+        const targetScreenCenterX = effectiveScreenWidth / 2;
+
         let newTx;
         let newTy;
 
         if (recenter) {
-            newTx = screenCenterX - WORLD_CENTER_X * targetScale;
-            newTy = screenCenterY - WORLD_CENTER_Y * targetScale;
+            // When recentering (e.g., navigating up a level), snap WORLD_CENTER_X to the targetScreenCenterX
+            newTx = targetScreenCenterX - WORLD_CENTER_X * targetScale;
+            newTy = screenCenterY - WORLD_CENTER_Y * targetScale + vertical_offset;
         } else {
-            newTx = screenCenterX - wx * targetScale;
-            newTy = screenCenterY - wy * targetScale;
+            // When zooming onto a specific child node, center the child node (wx) in the target screen center
+            newTx = targetScreenCenterX - wx * targetScale;
+            newTy = screenCenterY - wy * targetScale + vertical_offset;
         }
 
 
@@ -380,17 +426,28 @@ window.addEventListener('touchend',()=>{ isPanning=false; panStart=null; });
 (async function init(){
     try {
         root = await loadContent();
+        
+        if (!root || !root.name) {
+            throw new Error('Invalid content structure - missing name property');
+        }
+        
         current = root;
-        tx = (window.innerWidth/2) - (WORLD_CENTER_X); 
-        ty = (window.innerHeight/2) - (WORLD_CENTER_Y); 
+        currentInfoNode = current;
+        
+        // --- MODIFIED INITIAL TRANSFORMATION ---
+        const effectiveScreenWidth = window.innerWidth - INFO_PANEL_WIDTH;
+        const targetScreenCenterX = effectiveScreenWidth / 2;
+        tx = targetScreenCenterX - WORLD_CENTER_X;
+        ty = (window.innerHeight/2) - (WORLD_CENTER_Y) + vertical_offset;
         scale = 1.0;
         applyTransform();
         renderLevel(WORLD_CENTER_X, WORLD_CENTER_Y);
     } catch (err) {
         const infoTitle = document.getElementById('infoTitle');
         const infoDesc = document.getElementById('infoDesc');
+        breadcrumb.textContent = 'Error';
         infoTitle.textContent = 'Error loading content';
         infoDesc.textContent = err.message;
-        console.error(err);
+        console.error('Init error:', err);
     }
 })();

@@ -1,0 +1,46 @@
+<u><h3>Capturing the structure of individual Ultra-intense laser pulses</h3></u>
+    <center><img src="projects/lasers/dalle.png" style="width: 300px; height: 300px;"></center>
+    <center><small>A Dalle-generated image from a frustrating PhD day: "Ultra intense laser destroying Oxford college, in style of Van Gogh".</small></center>
+    <br>
+
+    <p>
+    There were two papers from this PhD work, in <a href="https://www.nature.com/articles/s41566-025-01698-x">Nature Photonics</a> and <a href="https://www.cambridge.org/core/journals/high-power-laser-science-and-engineering/article/hyperspectral-compressive-wavefront-sensing/216AC43C1ECCC6C94F725BD080B1571A">HPLSE</a>. Firstly, you might need to be convinced that ultra-intense laser pulses are cool and worth reading about, so here's something from my thesis:<br><br>  
+    <i> 
+        "To begin to intuit the level of extremity of these phenomena, one can make some
+        comparisons. The peak power of these lasers is ~3 orders of magnitude larger than the
+        total average global power consumption [5, 6], and when a pulse is subsequently focused
+        down to a 1.1μm<sup>2</sup> spot, its resultant peak intensity of 10<sup>23</sup>W cm<sup>-2</sup> is larger than if the
+        entire luminosity of the sun passed through a typical car's windscreen [7, 8]. The pulse
+        achieves these extreme conditions despite having an energy of ~100J, approximately the
+        same as a human expends in a single second, hinting at the brevity of its duration of tens
+        of femtoseconds (10<sup>-15</sup> s), which is to a second what a second is to 3 million years."
+    </i><br><br>
+
+    The purpose of these phenomena is to compress energy as much as possible in space and time, and then to use this extreme intensity to do things in particle acceleration or nuclear fusion. Thinking of these dimensions separately, temporally the pulse is made as short as possible by the superposition of many frequencies (colours), all in phase,<span class="tooltip">creating a spike in time. <span class="tooltip-text">Considering many waves of different frequencies, \(e^{i \omega t} \), this can be seen by the Fourier transform of a constant function: \(\int_{-\infty}^{\infty} e^{i \omega t} \, d\omega = \delta(t) \)</span> </span> Spatially, the pulse is focused down with a parabolic mirror to a spot size close to the diffraction limit. As long as we are not focusing too strongly, then conveniently the pattern of the focused field will be proportional to the Fourier transform of the initial field.<br><br>
+
+    So far, so good. However, things start to become more complicated when we consider that the pulse will not be ideal, and there will be distortions in space, time and coupled across space and time. Temporal distortions mean that our different frequency components are no longer in phase, resulting in the stretching of the pulse and consequently less intensity. Similarly, any high spatial frequencies in the pulse's spatial profile will also reduce the peak intensity when focused. Spatiotemporal couplings are more complicated distortions that mean that different spatial positions have different temporal profiles, or vice versa. These are the ones that are difficult to detect, because they are invisible to any measurement technique that works only in space or time, and they have been shown to significantly degrade the peak intensity (which was the whole point of these lasers in the first place). Consequently, it is important to characterize the full spatiotemporal structure of each ultra-intense laser pulse (as there may also be shot-to-shot fluctuations), and this is what this project addressed.  <br><br>
+    
+    It's a hard problem because the laser pulse is very high dimensional (when you consider it's also a vector field), but we're trying to capture it just on a two-dimensional sensor. So some machine learning and inverse problems methods were used. One approach we thought of was using this experimental setup, with snapshot compressive imaging.
+    <center><img src="projects/lasers/raven1.png" style="width: 600px; height: 300px;"></center> <br>
+
+    So we have some big cube of laser information that we want to capture, in space and time; lets call it \(\vec{m}\). But we only get to capture it by projecting it onto a single capture of a two-dimensional spatial sensor; lets say the result is \(\vec{n}\), and the measurement process is \(\mathbf{\Phi}\), so that, \( \vec{n} = \mathbf{\Phi}\vec{m}\). The trick is to design the measurement process so it samples the high dimensional data in a clever way, so that one can reconstruct it later. This is based on compressed sensing, and is the part of the experimental setup in the yellow box... for more details read the paper. Then to reconstruct the cube we solve an equation like the one below, using a method like deep unrolling, 
+    <center>
+    \(\tilde{\vec{m}} = \textrm{argmin}_{\vec{m}}\left[ \underbrace{||\vec{n} - \mathbf{\Phi}\vec{m}||^{2}}_{\mbox{{data term}}} + \underbrace{\eta \mathcal{R}(\vec{m},\psi)}_{\mbox{{regulariser}}}\right]. \) <br>            
+</center>
+
+Using a slightly different set up, we got some experimental results on a Petawatt class laser in Munich. Firstly a plot of the complete structure of a single ultra-intense laser pulse (previously not possible). Shown with a 3d plot in space and time, and then subplots with projections onto space and time. <br><br>
+    <center>
+    <div class="white-box">
+    <img src="projects/lasers/ravenresult1.jpg" style="width: 600px; height: 250px;">
+    </div>
+</center><br>
+
+And because we are able to capture individual pulses, we can also see how the spatiotemporal couplings change over time, and the resulting effect on the peak intensity. Here we see the evolution of the pulse front tilt (PFT, a spectrally changing spatial tilt), and pulse front curvature (PFC, spectrally changing angle of curvature), when we change the energy in the laser. Also shown is the spatiotemporal Strehl ratio; this is a measure of how much intensity has been reduced due to spatiotemporal couplings. We see clear long-time stabilization effects after change are made to the laser! <br><br>
+<center>
+    <div class="white-box">
+    <img src="projects/lasers/raven_result2.jpg" style="width: 550px; height: 580px;">
+    </div>
+</center><br>
+
+So now we can measure these complicated spatiotemporal couplings in individual ultra-intense laser pulses, what is next? Well now we can try to determine what parts of the generation process is creating them, and then try to fix them, or even see if we can use them in useful ways. If anyone is interesting on continuing work on this, I recommend talking to <a href="https://www.physics.ox.ac.uk/our-people/dopp">Andreas</a>. 
+    </p>

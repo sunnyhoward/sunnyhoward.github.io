@@ -10,6 +10,7 @@
       --bg2: #4e0795;
       --panel-bg: #f6f6f6;
       --accent: #e60a0a;
+      --accent-site: #889d10;
       --muted: #000000;
     }
     html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
@@ -49,14 +50,14 @@ body::before {
     position: fixed; 
     
     /* Set its location */
-    bottom: 20px; 
+    top: 20px; 
     left: 20px;
     
     /* Basic button styling */
     padding: 10px 15px;
     border: 1px solid #667eea; /* Border matching link color */
     border-radius: 5px;
-    background-color: rgba(223, 166, 12, 0.8); /* Slightly transparent background */
+    background-color: rgba(102, 126, 234, 0.2); /* Slightly transparent background */
     color: #fff; /* White text */
     text-decoration: none; /* Remove underline */
     font-weight: 600;
@@ -70,7 +71,7 @@ body::before {
 }
 
 #backButton:hover {
-    background-color: rgba(102, 126, 234, 0.2); /* Slightly darker on hover */
+    background-color: rgba(6, 13, 47, 0.743); /* Slightly darker on hover */
 }
     /* stage + viewport */
     #stage{position:relative;width:100vw;height:100vh;overflow:hidden}
@@ -120,10 +121,11 @@ body::before {
     .info-panel p{color:var(--muted);margin:6px 0 12px 0;line-height:1.45}
     .info-section{margin-bottom:12px}
     .paper-item{padding:10px;background:#f7fafc;border-radius:8px;margin-bottom:8px;border-left:4px solid var(--accent)}
+    .site-item{padding:10px;background:#f7fafc;border-radius:8px;margin-bottom:8px;border-left:4px solid var(--accent-site)}
     .button-row{display:flex;gap:8px;margin-top:8px}
     .btn{padding:8px 10px;border-radius:8px;border:none;cursor:pointer;background:var(--accent);color:#fff;font-weight:600}
     .btn.secondary{background:#e2e8f0;color:#1f2937}
-    .breadcrumb{position:fixed;left:20px;top:20px;background:rgba(255,255,255,0.95);padding:10px 14px;border-radius:8px;font-size:14px;color:#4a5568;z-index:450;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    .breadcrumb{position:fixed;left:20px;bottom:20px;background:rgba(255,255,255,0.95);padding:10px 14px;border-radius:8px;font-size:14px;color:#4a5568;z-index:450;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
     /* hide on small screens to avoid overlap */
     @media (max-width:920px){ .info-panel{width:320px;right:12px} .breadcrumb{left:8px;top:8px} }
 
@@ -160,6 +162,11 @@ body::before {
     <div class="info-section" id="papersSection" style="display:none">
       <h3 style="margin:0 0 8px 0">Papers</h3>
       <div id="papersList"></div>
+    </div>
+
+    <div class="info-section" id="sitesSection" style="display:none">
+      <h3 style="margin:0 0 8px 0">Sites</h3>
+      <div id="sitesList"></div>
     </div>
 
     <div class="info-section" id="childrenSection" style="display:none">

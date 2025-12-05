@@ -45,3 +45,71 @@ $(document).on('click', '.sub-menu a', function(e) {
   const targetId = $(this).attr('href');
   $(targetId).addClass('active-project-content');
 });
+
+
+// Add this function to your existing script.js file
+
+document.addEventListener('DOMContentLoaded', () => {
+  // ... existing initialization code ...
+  
+  const thoughtsSection = document.getElementById('thoughts');
+
+  // Use event delegation on the main thoughts section
+  thoughtsSection.addEventListener('click', (event) => {
+      
+      // 1. Check if the click was inside the main article container
+      const articleBox = event.target.closest('.article');
+      if (!articleBox) return;
+
+      // Find the content elements within this specific article box
+      const fullContent = articleBox.querySelector('.full-content');
+      const expandButton = articleBox.querySelector('[data-action="expand"]');
+      const collapseButton = articleBox.querySelector('[data-action="collapse"]');
+
+      if (!fullContent) return; // Exit if no content is found
+      
+      const isCurrentlyExpanded = !fullContent.classList.contains('hidden-content');
+      const targetElement = event.target.closest('A') || event.target.closest('[data-action]');
+
+
+      // --- LOGIC BRANCHING ---
+
+      // A. Handle CLICKS on a Button or Link
+      if (targetElement) {
+          
+          // If it's a regular link (A tag), let the browser handle it.
+          if (targetElement.tagName === 'A') {
+              return;
+          }
+
+          // If it's the specific COLLAPSE button
+          if (targetElement.getAttribute('data-action') === 'collapse') {
+              event.preventDefault(); // Stop the click from bubbling up and re-expanding
+              fullContent.classList.add('hidden-content');
+              if (expandButton) expandButton.style.display = 'inline-block';
+              if (collapseButton) collapseButton.style.display = 'none';
+          }
+          // If it's the EXPAND button, we fall through to the general expansion logic below.
+          
+      } 
+      
+      // B. Handle Clicks ANYWHERE ELSE IN THE BOX (Expansion only)
+      
+      // If the article is NOT already expanded AND the click wasn't explicitly to collapse:
+      if (!isCurrentlyExpanded) {
+           // 1. Check if the click was on the text selection (to prevent collapse after highlighting)
+           // This uses a timeout because the 'mouseup' event (end of selection) often triggers a click.
+           // We can't perfectly filter selection clicks, but we can ensure expansion happens.
+          
+          // 2. Perform Expansion
+          fullContent.classList.remove('hidden-content');
+          if (expandButton) expandButton.style.display = 'none';
+          if (collapseButton) collapseButton.style.display = 'block';
+      }
+  });
+
+  // Initial setup: Hide all close buttons when the page loads
+  thoughtsSection.querySelectorAll('.close-toggle').forEach(el => {
+      el.style.display = 'none';
+  });
+});
