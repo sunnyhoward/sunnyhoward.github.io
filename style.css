@@ -105,6 +105,20 @@ header, #content, footer {
   padding:25px;
   color:#FFFFFF; 
 }
+
+#header img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%; /* Makes it circular */
+  border: 4px solid #333; /* Add a border - adjust color as needed */
+  object-fit: cover; /* Ensures the image fills the circle properly */
+  margin-bottom: 10px; /* Adds space below the image before the menu */
+  display: block;
+}
+#header img {
+  box-shadow: 0px 0px 4px 4px rgb(0, 0, 0);
+}
+
 iframe {
   max-width:100%;
 }
@@ -444,4 +458,36 @@ ul.main-menu li a.active {
   cursor: pointer;
   margin-left: 5px; 
   font-weight: 500;
+}
+
+/* --- Image Modal (Click-to-expand) --- */
+.img-modal {
+  display: none; 
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0,0,0,0.8);
+}
+
+.img-modal img {
+  display: block;
+  margin: 50px auto;
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: 8px;
+  box-shadow: 0 0 10px black;
+}
+
+.close-modal {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
 }
