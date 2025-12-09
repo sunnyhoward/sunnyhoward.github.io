@@ -162,11 +162,18 @@ if (node.sites && node.sites.length > 0) {
             el.className = 'paper-item';
             el.innerHTML = `
                 <div style="font-weight:700">${p.title || 'Untitled'}</div>
-                <div style="font-size:13px;color:#718096;margin:6px 0">${p.authors || ''}</div>
+    
+                <div style="font-size:13px;color:#718096;margin:6px 0">
+                    ${p.authors || ''}
+                    ${p.year ? ` (${p.year})` : ''}
+                </div>
+    
                 <div style="font-size:13px;color:#4a5568">${p.summary || ''}</div>
+    
                 <div style="margin-top:8px">
                     <a href="${p.url || '#'}" target="_blank">${p.url ? 'Open paper' : ''}</a>
-                </div>`;
+                </div>
+            `;
             papersList.appendChild(el);
         });
     } else {
