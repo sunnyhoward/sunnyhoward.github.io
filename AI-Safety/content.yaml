@@ -1,7 +1,5 @@
 name: "Technical AI Safety"
-description: "Recently I have been learning about technical AI safety, and wanted a place to arrange the literature. Hopefully it can also be 
-useful to someone else...This contains an overview of the different Technical AI Safety areas, along with key papers for each.\n\nNaturally 
-many of these areas will blend into each other. This is a work in progress..."
+description: "Recently I have been learning about technical AI safety, and wanted a place to arrange the literature. When finished, this contains an broad overview of the different Technical AI Safety areas, along with some key papers for each. Naturally many of these areas will blend into each other. This is a work in progress...\n\nIf you are on mobile, switch to desktop mode."
 sites:
 - title: "Lesswrong"
   summary: "A website devoted to the discussion of rationality, cognitive biases, and AI alignment."
@@ -15,10 +13,8 @@ sites:
 
   
 children:
-  - name: "Mechanistic Interpretability"
-    description: "This field is about delving into the weights of the neural network in order to understand model internals and how representations map to computation. With significant evidence of deception in current models, it is plausible that purely behavioural studies will not be sufficient as the model's capabilities in scheming improve. The attractive thing about studying the models internals is that it may bypass this problem.\n\n 
-    
-    There is a very long term goal of being able to fully reverse engineer a model, understanding all its steps of reasoning. Some are pessimistic on how possible this actually is, but there are also a number of more immediately useful techniques in this space. Also included are papers generally on model internals."
+  - name: "Modal Internals & Interpretability"
+    description: "This field is about delving into the weights of the neural network in order to understand model internals and how representations map to computation. With significant evidence of deception in current models, it is plausible that purely behavioural studies will not be sufficient as the model's capabilities in scheming improve. The attractive thing about studying the models internals is that it may bypass this problem.\n\nThere is a very long term goal of being able to fully reverse engineer a model, understanding all its steps of reasoning. Some are pessimistic on how possible this actually is, but there are also a number of more immediately useful techniques in this space. Also included are papers generally on model internals."
     children:
       - name: "Circuits & Features"
         description: "Circuit-level analyses and feature discovery. This is more along the ideas of reverse engineering the models reasoning process (the 'circuit')."   
@@ -56,6 +52,11 @@ children:
             summary: "Extracting millions of features from GPT-4"
             url: "https://arxiv.org/pdf/2406.04093"
             year: "2024"
+          - title: "Weight-sparse transformers have interpretable circuits"
+            authors: "Gao et al."
+            summary: "Instead of using SAE to extract features, directly train a weight-sparse transformer and find that it has more interpretable circuits."
+            url: "https://arxiv.org/pdf/2511.13653"
+            year: "2025"
         sites:
             - title: "Neuronpedia"
               summary: "A website cataloguing neurons and circuits in transformer models."
@@ -95,67 +96,119 @@ children:
                 year: "2024"
         
   - name: "Alignment"
-    description: "Methods for aligning models with human values and intent. Can be split into outer and inner alignment. The former considers the question of is the training objective actually aligned with our desired values (and also the question of how do we even determine our shared desired values). Inner alignment then considers the question of does the model actually optimize for the training objective, or does it develop some other misaligned objective internally."
+    description: "Methods for aligning models with human values and intent, during the training process. Can be split into outer and inner alignment. The former considers the question of is the training objective actually aligned with our desired values (and also the question of how do we even determine our shared desired values). Inner alignment then considers the question of does the model actually optimize for the training objective, or does it develop some other misaligned objective internally."
     children:
       - name: "RLHF"
-        description: "Reinforcement learning from human feedback and its variants."
+        description: "Reinforcement learning from human feedback and its variants. Generally we take preference data and train a reward model. We then use this reward model to further fine-tune the language model with reinforcement learning."
         papers:
           - title: "Training Language Models to Follow Instructions with Human Feedback"
             authors: "Ouyang et al."
             summary: "Introduces InstructGPT and RLHF pipeline."
             url: "https://arxiv.org/abs/2203.02155"
             year: "2022"
-      - name: "Value Learning"
-        description: "Approaches to infer human values and preferences."
+    papers:
+      - title: "Direct Preference Optimization: Your Language Model is Secretly a Reward Model"
+        authors: "Rafailov et al."
+        summary: "Removes the need for the reward model in RLHF and gives a method to directly optimize the policy from preference data."
+        url: "https://proceedings.neurips.cc/paper_files/paper/2023/file/a85b405ed65c6477a4fe8302b5e06ce7-Paper-Conference.pdf"
+        year: "2023"
   
-  - name: "Evaluations"
-    description: "Benchmarks and metrics to measure capability and alignment."
-    sites: 
-     - title: "Apollo Research Guide"
-       summary: "A comprehensive guide to AI model evaluations."
-       url: "https://www.apolloresearch.ai/blog/a-starter-guide-for-evals/"
+  - name: "Governance & Control"
+    description: "How can we evaluate and control a trained model? Benchmarks and metrics to measure capability and alignment."
     children:
-      - name: "Capability Evals"
+      - name: "Evals"
         description: "Tests for model knowledge and reasoning."
+        sites: 
+          - title: "Apollo Research Guide"
+            summary: "A comprehensive guide to AI model evaluations."
+            url: "https://www.apolloresearch.ai/blog/a-starter-guide-for-evals/"
         papers:
           - title: "Measuring Massive Multitask Language Understanding"
             authors: "Hendrycks et al."
             summary: "Introduces the MMLU benchmark."
             url: "https://arxiv.org/abs/2009.03300"
 
-  - name: "Control"
-    description: "Methods to control and oversee AI systems."
-    papers:
-      - title: "AI Control: Improving Safety Despite Intentional Subversion"
-        authors: "Greenblatt et al."
-        summary: "Development and evaluation of safety protocol pipelines."
-        url: "https://arxiv.org/abs/2312.06942"
-        year: "2024"
-    children:
-        - name: "Scalable Oversight"
-          description: "Humans can't directly oversee everything a model does, especially as the model's capabilities exceed ours, both due to a lack of time and expertise. So how can one ensure that a model is doing what we want, even when we can't directly oversee it? This is the problem of scalable oversight."
-          
-        - name: "Red teaming & Jailbreaks"
-          description: "Techniques to identify and mitigate model vulnerabilities."
-          papers:
-            - title: "Constitutional Classifiers: Defending against universal jailbreaks"
-              authors: "Sharma et al."
-              summary: "Define some constitution that the model should follow, and then train a classifier to analyse the models inputs and outputs to check that it is obeying the constitution."
-              url: "https://www.anthropic.com/news/constitutional-classifiers"
-              year: "2025"
+      - name: "Control"
+        description: "Methods to control and oversee AI systems."
+        papers:
+          - title: "AI Control: Improving Safety Despite Intentional Subversion"
+            authors: "Greenblatt et al."
+            summary: "Development and evaluation of safety protocol pipelines."
+            url: "https://arxiv.org/abs/2312.06942"
+            year: "2024"
+              
+      - name: "Red teaming & Jailbreaks"
+        description: "Techniques to identify and mitigate model vulnerabilities."
+        papers:
+          - title: "Constitutional Classifiers: Defending against universal jailbreaks"
+            authors: "Sharma et al."
+            summary: "Define some constitution that the model should follow, and then train a classifier to analyse the models inputs and outputs to check that it is obeying the constitution."
+            url: "https://www.anthropic.com/news/constitutional-classifiers"
+            year: "2025"
+            -title: "The Attacker Moves Second: Stronger Adaptive Attacks Bypass Defenses Against Llm Jailbreaks and Prompt Injections"
+            authors: "Nasr et al."
+            summary: "Shows that many existing jailbreak defenses can be bypassed with attacks that adapt to counter the defense's design."
+            url: "https://arxiv.org/abs/2510.09023"
+            year: "2025"
+      
+      - name: "Scalable Oversight"
+        description: "Humans can't directly oversee everything a model does, especially as the model's capabilities exceed ours, both due to a lack of time and expertise. So how can one ensure that a model is doing what we want, even when we can't directly oversee it? This is the problem of scalable oversight."
+
+      - name: "Monitoring & Detection"
+        description: "Ways to monitor AI systems for misalignment and risky behaviour."
+        children:
+          - name: "Chain-of-Thought Monitoring"
+            description: "Using chain-of-thought reasoning traces to monitor model behaviour and detect misalignment."
+            papers:
+              - title: "Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety"
+                authors: "Korbak et al."
+                summary: "Using chain-of-thought reasoning to monitor model behaviour and detect misalignment."
+                url: "https://arxiv.org/abs/2507.11473"
+                year: "2025"
+              - title: "Detecting misbehavior in frontier reasoning models"
+                authors: "OpenAI"
+                summary: "Using chain-of-thought reasoning traces to identify misbehaving models."
+                url: "https://openai.com/index/chain-of-thought-monitoring/"
+                year: "2025"
+              - title: Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation"
+                authors: "Baker et al."
+                summary: "Use another LLM to monitor the CoT of a frontier model and successfully detect reward hacking."
+                url: "https://arxiv.org/abs/2507.14433"
+                year: "2025"
+
+                children:
+                  - name: "Unfaithfulness"
+                    description: "The model generates chain-of-thought reasoning traces that do not accurately reflect its true reasoning process."
+                    papers:
+                      - title: "Language Models Don't Always Say What They Think: Unfaithful Explanations in Chain-of-Thought Prompting"
+                        authors: "Turpin et al."
+                        summary: "Add biased features to model inputs (for example always make the correct answer 'A' in multiple choice questions), and the model won't include this fact in their CoT (which still sounds plausible)."
+                        url: "https://arxiv.org/abs/2305.04388"
+                        year: "2023"
+                      - title: "Chain-of-Thought Reasoning In The Wild Is Not Always Faithful"
+                        authors: "Arcuschin et al."
+                        summary: "Shows that chain-of-thought reasoning is often unfaithful, even on realistic prompts with no artificial bias."
+                        url: "https://arxiv.org/abs/2503.08679"
+                        year: "2025"
 
 
   - name: "Misalignment Evidence"
     description: "Empirical findings that highlight risks and misalignment in AI systems."
     children:
-      - name: "Reward Hacking"
-        description: "Instances where models exploit loopholes in their reward functions."
-        papers:
-          - title: "Natural emergent misalignment from reward hacking in production RL"
-            authors: "MacDiarmid et al."
-            summary: "They give the model knowledge of typical reward hacking strategies during training, and find that the model naturally generalizes this bad behaviour to further misalignment  like sabotage and collaborating with malicious actors."
-            url: "https://www.anthropic.com/research/emergent-misalignment-reward-hacking"
-            year: "2025"
+      - name: "Emergent Misalignment"
+        description: "Instances where models exhibit misaligned behaviour that was not explicitly trained for."
+        papers: 
+            - title: "Emergent Misalignment: Narrow finetuning can produce broadly misaligned LLMs"
+              authors: "Betley et al."
+              summary: "When finetuned to do a narrow misaligned task (writing insecure code without telling the user), models act misaligned in a broad range of other scenarios, such as saying humans should be enslaved."
+              url: "https://arxiv.org/abs/2502.17424"
+              year: "2025"
+            - title: "Natural emergent misalignment from reward hacking in production RL"
+              authors: "MacDiarmid et al."
+              summary: "They give the model knowledge of typical reward hacking strategies during training, and find that the model naturally generalizes this bad behaviour to further misalignment like sabotage and collaborating with malicious actors."
+              url: "https://www.anthropic.com/research/emergent-misalignment-reward-hacking"
+              year: "2025"
+
       - name: "Deception/Scheming"
         description: "Evidence of models engaging in deceptive or scheming behaviour; i.e. pretending to be aligned while secretly pursuing some other agenda. This is also very linked to situational awareness, where the model learns to act differently during evaluation and in deployment."
         papers:
@@ -176,4 +229,21 @@ children:
             summary: "Frontier models (with no further fine-tuning) are placed in environment that encourages scheming. They attempt to disable their oversight mechanisms and exfiltrate their model weights to external servers (presumably with the intention of maintaining their existence). Their deceptive reasoning was confirmed with chain-of-thought traces."
             url: "https://arxiv.org/abs/2412.04984"
             year: "2025"
-          
+        
+      - name: "Other"
+        description: "Other misalignment evidence that doesn't fit into the above categories."
+        papers:
+          - title: "Sycophancy to Subterfuge: Investigating Reward-Tampering in Large Language Models"
+            authors: "Denison et al."
+            summary: "LLMs learn to rewrite their own reward functions."
+            url: "https://arxiv.org/abs/2406.10162"
+            year: "2024"
+    
+  - name: "Foundations"
+    description: "Many people have thought on these problems for a long time, and so there are some behaviours that we may expect future (and current) AI systems to exhibit. This section contains some of the more theoretical and philosophical literature on AI safety."
+    papers:
+      - title: "The Superintelligent Will: Motivation and Instrumental Rationality in Advanced Artificial Agents"
+        authors: "Nick Bostrum"
+        summary: "Introduces two key ideas, of goal orthogonality, and instrumental convergence. Goal orthogonality is the idea that an AI system can have any arbitrary goal, regardless of its intelligence level. Instrumental convergence is the idea that certain sub-goals are useful for a wide range of final goals, such as self-preservation and resource acquisition."
+        url: "https://nickbostrom.com/superintelligentwill.pdf"
+        year: "2012"
