@@ -145,7 +145,7 @@ children:
             summary: "Define some constitution that the model should follow, and then train a classifier to analyse the models inputs and outputs to check that it is obeying the constitution."
             url: "https://www.anthropic.com/news/constitutional-classifiers"
             year: "2025"
-            -title: "The Attacker Moves Second: Stronger Adaptive Attacks Bypass Defenses Against Llm Jailbreaks and Prompt Injections"
+          - title: "The Attacker Moves Second: Stronger Adaptive Attacks Bypass Defenses Against Llm Jailbreaks and Prompt Injections"
             authors: "Nasr et al."
             summary: "Shows that many existing jailbreak defenses can be bypassed with attacks that adapt to counter the defense's design."
             url: "https://arxiv.org/abs/2510.09023"
